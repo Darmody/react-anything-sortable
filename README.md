@@ -66,7 +66,10 @@ A modern usage would be
 import React from 'react';
 import { SortableContainer } from 'react-anything-sortable';
 
+<<<<<<< ef3f8fe38a939c3df1c91d95ce8315d955c0e6d4
 @sortable
+=======
+>>>>>>> Add SortableContainer (#61)
 class SortableItem extends React.Component {
   render() {
     return (
