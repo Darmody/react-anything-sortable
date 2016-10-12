@@ -66,10 +66,7 @@ A modern usage would be
 import React from 'react';
 import { SortableContainer } from 'react-anything-sortable';
 
-<<<<<<< ef3f8fe38a939c3df1c91d95ce8315d955c0e6d4
 @sortable
-=======
->>>>>>> Add SortableContainer (#61)
 class SortableItem extends React.Component {
   render() {
     return (
@@ -83,24 +80,47 @@ class SortableItem extends React.Component {
 };
 ```
 
-Or you want to construct it manually
+`<SortableContainer />` will create a `<div>` tag to wrap your own item default. If you
+want to customize the `SortableContainer`, you can pass component prop to it. Like:
+
+```javascript
+  <SortableContaienr component={<div />}>
+    <div> your item </div>
+  </SortableContainer>
+```
+
+
+If the component passed to `SortableContainer` is your own component, you should make it
+accept `className`, `style`, `onMouseDown`, `onTouchStart`, `children` from props.
 
 ```javascript
 import React from 'react';
 import { sortable } from 'react-anything-sortable';
 
-@sortable
-class SortableItem extends React.Component {
+class CustomSortableContainer extends React.Component {
   render() {
     return (
-      <div
+      <div                       // <-- make sure pass props
         className={this.props.className}
         style={this.props.style}
         onMouseDown={this.props.onMouseDown}
         onTouchStart={this.props.onTouchStart}
       >
-        your item                //     it contains required `className`s and
-      </div>                     //     event handlers
+        {children}
+      </div>
+    );
+  }
+};
+
+@sortable
+class SortableItem extends React.Component {
+  render() {
+    return (
+      <SortableContainer component={<CustomSortableContainer />}>
+        <div>
+          your item
+        </div>
+      </SortableContainer>
     );
   }
 };
