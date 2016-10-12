@@ -503,7 +503,22 @@ const Sortable = React.createClass({
   }
 });
 
+const SortableContainer = ({
+  className, style, onMouseDown, onTouchStart, children, component,
+}) => {
+  if (React.isValidElement(component)) {
+    return React.cloneElement(component, {
+      className, style, onMouseDown, onTouchStart, children,
+    });
+  } else {
+    return React.createElement('div', {
+      className, style, onMouseDown, onTouchStart, children
+    });
+  }
+};
+
 Sortable.SortableItemMixin = SortableItemMixin();
 Sortable.sortable = SortableItemMixin;
+Sortable.SortableContainer = SortableItemMixin(SortableContainer);
 
 export default Sortable;

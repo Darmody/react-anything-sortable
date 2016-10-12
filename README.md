@@ -31,7 +31,7 @@ $ npm install --save react-anything-sortable
 // UMD build is provided as well, but please do consider use modern module bundlers like webpack or browserify.
 ```
 
-You have to add necessary styles for sortable working properly, if you're using bundle tools like webpack, just 
+You have to add necessary styles for sortable to work properly, if you're using bundle tools like webpack, just 
 
 ```javascript
 import 'react-anything-sortable/sortable.css';
@@ -64,21 +64,63 @@ A modern usage would be
 
 ```javascript
 import React from 'react';
-import { sortable } from 'react-anything-sortable';
+import { SortableContainer } from 'react-anything-sortable';
 
 @sortable
 class SortableItem extends React.Component {
   render() {
     return (
-      <div
+      <SortableContainer>
+        <div>
+          your item
+        </div>
+      </SortableContainer>
+    );
+  }
+};
+```
+
+`<SortableContainer />` will create a `<div>` tag to wrap your own item default. If you
+want to customize the `SortableContainer`, you can pass component prop to it. Like:
+
+```javascript
+  <SortableContaienr component={<div />}>
+    <div> your item </div>
+  </SortableContainer>
+```
+
+
+If the component passed to `SortableContainer` is your own component, you should make it
+accept `className`, `style`, `onMouseDown`, `onTouchStart`, `children` from props.
+
+```javascript
+import React from 'react';
+import { sortable } from 'react-anything-sortable';
+
+class CustomSortableContainer extends React.Component {
+  render() {
+    return (
+      <div                       // <-- make sure pass props
         className={this.props.className}
         style={this.props.style}
         onMouseDown={this.props.onMouseDown}
         onTouchStart={this.props.onTouchStart}
+      >
+        {children}
+      </div>
+    );
+  }
+};
 
-      >                          // <-- make sure pass these props to your own item,
-        your item                //     it contains required `className`s and
-      </div>                     //     event handlers
+@sortable
+class SortableItem extends React.Component {
+  render() {
+    return (
+      <SortableContainer component={<CustomSortableContainer />}>
+        <div>
+          your item
+        </div>
+      </SortableContainer>
     );
   }
 };
