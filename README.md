@@ -80,24 +80,47 @@ class SortableItem extends React.Component {
 };
 ```
 
-Or you want to construct it manually
+`<SortableContainer />` will create a `<div>` tag to wrap your own item default. If you
+want to customize the `SortableContainer`, you can pass component prop to it. Like:
+
+```javascript
+  <SortableContaienr component={<div />}>
+    <div> your item </div>
+  </SortableContainer>
+```
+
+
+If the component passed to `SortableContainer` is your own component, you should make it
+accept `className`, `style`, `onMouseDown`, `onTouchStart`, `children` from props.
 
 ```javascript
 import React from 'react';
 import { sortable } from 'react-anything-sortable';
 
-@sortable
-class SortableItem extends React.Component {
+class CustomSortableContainer extends React.Component {
   render() {
     return (
-      <div                       // <-- make sure pass props to your own item,
+      <div                       // <-- make sure pass props
         className={this.props.className}
         style={this.props.style}
         onMouseDown={this.props.onMouseDown}
         onTouchStart={this.props.onTouchStart}
       >
-        your item                //     it contains required `className`s and
-      </div>                     //     event handlers
+        {children}
+      </div>
+    );
+  }
+};
+
+@sortable
+class SortableItem extends React.Component {
+  render() {
+    return (
+      <SortableContainer component={<CustomSortableContainer />}>
+        <div>
+          your item
+        </div>
+      </SortableContainer>
     );
   }
 };
